@@ -1,0 +1,2 @@
+ruby=ruby-<%= ruby_version %>
+ruby-gemset=<%= ruby_gemset %>
