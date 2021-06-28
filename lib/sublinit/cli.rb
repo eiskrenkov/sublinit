@@ -3,6 +3,7 @@
 require_relative 'cli/io'
 require_relative 'cli/git'
 require_relative 'cli/rvm'
+require_relative 'cli/sublime'
 
 module SublInit
   module CLI

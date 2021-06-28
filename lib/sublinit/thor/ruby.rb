@@ -8,7 +8,8 @@ module SublInit
       commands do
         option :name, aliases: '-n', required: true
         option :gemset, aliases: '-g', required: true
-        desc 'ruby [NAME] [GEMSET]', 'Initialize a new Ruby Sublime Text project'
+        option :open, aliases: '-o', type: :boolean, default: true
+        desc 'ruby [NAME] [GEMSET] [OPEN]', 'Initialize a new Ruby Sublime Text project'
         def ruby
           ruby_version = RUBY_VERSION
 
@@ -27,11 +28,11 @@ module SublInit
             ).create!
 
             # 2. Create Sublime Text project file
-            say("Creating #{project_name}.sublime-project")
+            say("Creating #{project_name}.sublime-project...")
 
             gemset_folder_path = SublInit::Project::RVM::Gemset.new(ruby_version, ruby_gemset).path
 
-            SublInit::Project::Files::SublimeProject.new(
+            sublime_project = SublInit::Project::Files::SublimeProject.new(
               project_name: project_name,
               additional_folders: [
                 {
@@ -42,9 +43,16 @@ module SublInit
             ).create!
 
             # 3. Initialize Git repository
-            say('Initializing git repository')
+            say('Initializing git repository...')
 
             SublInit::CLI::Git.init
+
+            # 4. Open Sublime Text Project
+            if options[:open]
+              say("Opening #{sublime_project} in Sublime Text...")
+
+              SublInit::CLI::Sublime::Text.open(sublime_project)
+            end
           end
         end
       end

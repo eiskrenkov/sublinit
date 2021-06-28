@@ -10,6 +10,7 @@ module SublInit
 
         def create!
           File.write(filename, default_content)
+          filename
         end
 
         private
