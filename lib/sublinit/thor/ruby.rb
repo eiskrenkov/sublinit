@@ -9,6 +9,7 @@ module SublInit
         option :name, aliases: '-n', required: true
         option :gemset, aliases: '-g', required: true
         option :open, aliases: '-o', type: :boolean, default: true
+        option :origin, aliases: '-or'
         desc 'ruby [NAME] [GEMSET] [OPEN]', 'Initialize a new Ruby Sublime Text project'
         def ruby
           ruby_version = RUBY_VERSION
@@ -47,12 +48,21 @@ module SublInit
 
             SublInit::CLI::Git.init
 
-            # 4. Open Sublime Text Project
+            # 4. Add remote
+            if options[:origin]
+              say("Adding #{options[:origin]} as origin git remote...")
+
+              SublInit::CLI::Git.add_remote(:origin, options[:origin])
+            end
+
+            # 5. Open Sublime Text Project
             if options[:open]
               say("Opening #{sublime_project} in Sublime Text...")
 
               SublInit::CLI::Sublime::Text.open(sublime_project)
             end
+
+            say("Done! Your new project path is #{Dir.pwd}", color: :green)
           end
         end
       end

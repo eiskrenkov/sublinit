@@ -19,6 +19,11 @@ module SublInit
           super(task, args, options)
         end
 
+        def say(message, options = {})
+          SublInit::CLI::IO.say('[THOR] ', color: :pink, newline: false)
+          SublInit::CLI::IO.say(message, **{ color: :yellow }.merge(options))
+        end
+
         def execute(command, *options, status_code: false)
           SublInit::CLI.exec(command, options, status_code: status_code)
         end

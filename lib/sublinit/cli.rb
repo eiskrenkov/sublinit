@@ -11,8 +11,8 @@ module SublInit
       def exec(command, *options, status_code: false)
         full_command = "#{command} #{options.join(' ')}"
 
-        SublInit::CLI::IO.say('[CLI] Executing ', color: :pink, newline: false)
-        SublInit::CLI::IO.say(full_command, color: :blue)
+        SublInit::CLI::IO.say('[CLI] ', color: :pink, newline: false)
+        SublInit::CLI::IO.say("Executing '#{full_command}'", color: :blue)
 
         status_code ? system(full_command) : `#{full_command}`.strip
       end

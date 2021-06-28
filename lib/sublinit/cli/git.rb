@@ -8,6 +8,10 @@ module SublInit
           git('init')
         end
 
+        def add_remote(name, adress)
+          git('remote', 'add', name, adress)
+        end
+
         private
 
         def git(*command)
