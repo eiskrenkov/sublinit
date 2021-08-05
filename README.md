@@ -8,6 +8,9 @@ Install sublinit on your machine as any other Ruby gem
 $ gem install sublinit --source "https://rubygems.pkg.github.com/eiskrenkov"
 ```
 
+## Demo
+![sublinit](https://user-images.githubusercontent.com/39211838/128425310-47f89fdd-c1cf-43d3-8ed4-86b13d442902.gif)
+
 ## Usage
 
 ### Ruby
