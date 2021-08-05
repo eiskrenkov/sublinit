@@ -4,6 +4,7 @@ require_relative 'sublinit/version'
 
 require_relative 'sublinit/core_ext/string'
 
+require_relative 'sublinit/errors'
 require_relative 'sublinit/thor'
 require_relative 'sublinit/cli'
 require_relative 'sublinit/context'

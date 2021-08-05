@@ -12,9 +12,9 @@ module SublInit
 
     def method_missing(method_name, *arguments, &block)
       instance_variable_name = "@#{method_name}"
-      return instance_variable_get(instance_variable_name) if defined?(instance_variable_name)
+      return unless defined?(instance_variable_name)
 
-      super
+      instance_variable_get(instance_variable_name)
     end
   end
 end

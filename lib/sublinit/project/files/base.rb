@@ -4,11 +4,13 @@ module SublInit
   module Project
     module Files
       class Base
-        def self.create!(*args)
-          new(*args).create!
+        def self.create!(...)
+          new(...).create!
         end
 
         def create!
+          raise SublInit::Project::Files::AlreadyExists, filename if file_exists?
+
           File.write(filename, default_content)
           filename
         end
@@ -17,6 +19,10 @@ module SublInit
 
         def build_full_filename(filename, extension)
           [filename, extension].join('.')
+        end
+
+        def file_exists?
+          File.file?(filename)
         end
 
         def filename

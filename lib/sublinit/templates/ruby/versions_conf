@@ -1,2 +1,4 @@
 ruby=ruby-<%= ruby_version %>
+<% if ruby_gemset %>
 ruby-gemset=<%= ruby_gemset %>
+<% end %>

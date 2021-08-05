@@ -6,63 +6,62 @@ module SublInit
       extend SublInit::Thor::Support
 
       commands do
+        option :new, type: :boolean, default: false
         option :name, aliases: '-n', required: true
-        option :gemset, aliases: '-g', required: true
+        option :gemset, aliases: '-g'
         option :open, aliases: '-o', type: :boolean, default: true
         option :origin, aliases: '-or'
-        desc 'ruby [NAME] [GEMSET] [OPEN]', 'Initialize a new Ruby Sublime Text project'
+        desc 'ruby [NEW] [NAME] [GEMSET] [OPEN] [ORIGIN]', 'Initialize a new Ruby Sublime Text project'
         def ruby
           ruby_version = RUBY_VERSION
 
           project_name = options[:name]
           ruby_gemset = options[:gemset]
 
-          say("Creating #{ruby_gemset} gemset for Ruby #{ruby_version}...")
-          SublInit::CLI::RVM.create_gemset(ruby_gemset)
+          within project_name, if: options[:new] do
+            # 1. Create RVM gemset
+            operation "Creating #{ruby_gemset} gemset for Ruby #{ruby_version}", if: ruby_gemset do
+              SublInit::CLI::RVM.create_gemset(ruby_gemset)
+            end
 
-          within(project_name) do
-            # 1. Create versions.conf
-            say('Creating .versions.conf file...')
+            # 2. Create versions.conf
+            operation 'Creating .versions.conf file' do
+              SublInit::Project::Files::Ruby::VersionsConf.create!(
+                ruby_version: ruby_version, ruby_gemset: ruby_gemset
+              )
+            end
 
-            SublInit::Project::Files::Ruby::VersionsConf.new(
-              ruby_version: ruby_version, ruby_gemset: ruby_gemset
-            ).create!
+            # 3. Create Sublime Text project file
+            sublime_project = operation "Creating #{project_name}.sublime-project" do
+              gemset_folder_path = SublInit::Project::RVM::Gemset.new(ruby_version, ruby_gemset).path
 
-            # 2. Create Sublime Text project file
-            say("Creating #{project_name}.sublime-project...")
+              SublInit::Project::Files::SublimeProject.create!(
+                project_name: project_name,
+                additional_folders: [
+                  {
+                    name: 'Gems',
+                    path: gemset_folder_path
+                  }
+                ]
+              )
+            end
 
-            gemset_folder_path = SublInit::Project::RVM::Gemset.new(ruby_version, ruby_gemset).path
+            # 4. Initialize Git repository
+            operation 'Initializing git repository' do
+              SublInit::CLI::Git.init
+            end
 
-            sublime_project = SublInit::Project::Files::SublimeProject.new(
-              project_name: project_name,
-              additional_folders: [
-                {
-                  name: 'Gems',
-                  path: gemset_folder_path
-                }
-              ]
-            ).create!
-
-            # 3. Initialize Git repository
-            say('Initializing git repository...')
-
-            SublInit::CLI::Git.init
-
-            # 4. Add remote
-            if options[:origin]
-              say("Adding #{options[:origin]} as origin git remote...")
-
+            # 5. Add remote
+            operation "Adding #{options[:origin]} as origin git remote", if: options[:origin] do
               SublInit::CLI::Git.add_remote(:origin, options[:origin])
             end
 
-            # 5. Open Sublime Text Project
-            if options[:open]
-              say("Opening #{sublime_project} in Sublime Text...")
-
+            # 6. Open Sublime Text Project
+            operation "Opening #{sublime_project} in Sublime Text", if: (sublime_project && options[:open]) do
               SublInit::CLI::Sublime::Text.open(sublime_project)
             end
 
-            say("Done! Your new project path is #{Dir.pwd}", color: :green)
+            say("Done! Your project path is #{Dir.pwd}", color: :green)
           end
         end
       end

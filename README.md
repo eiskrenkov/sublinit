@@ -11,7 +11,7 @@ $ gem install sublinit --source "https://rubygems.pkg.github.com/eiskrenkov"
 ## Usage
 
 ### Ruby
-Executing `$ sublinit ruby --name newproject --gemset npr` will
+Executing `$ sublinit ruby --new --name newproject --gemset npr` will
 
 1. Create `newproject` directory
 2. Initialize git repository inside
@@ -19,6 +19,8 @@ Executing `$ sublinit ruby --name newproject --gemset npr` will
 4. Create `.versions.conf` RVM configuration inside
 5. Create `newproject.sublime-project` with Gems folder reference inside
 6. Open newly created project in Sublime Text
+
+If you won't pass `--new` option, SublInit won't create any folders and will run inside of the current one
 
 #### Other options
 1. `--no-open` do not open the project in Sublime Text
