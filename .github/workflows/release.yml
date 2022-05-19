@@ -7,7 +7,7 @@ on:
 
 jobs:
   release:
-    name: Build and push to GitHub Package Registry
+    name: Build and push to RubyGems
     runs-on: ubuntu-20.04
 
     steps:
@@ -17,17 +17,17 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.0.1
+          ruby-version: 3.1
 
-      - name: Set GitHub credentials
+      - name: Set RubyGems credentials
         run: |
           mkdir -p $HOME/.gem
           touch $HOME/.gem/credentials
           chmod 0600 $HOME/.gem/credentials
-          printf -- "---\n:github: Bearer ${{ github.token }}\n" > $HOME/.gem/credentials
+          printf -- "---\n:rubygems_api_key: ${{ secrets.RUBYGEMS_AUTH_TOKEN }}\n" > $HOME/.gem/credentials
 
       - name: Build Gem
         run: gem build *.gemspec
 
-      - name: Push Gem to GitHub Packages
-        run: gem push --KEY github --host https://rubygems.pkg.github.com/${{ github.repository_owner }} *.gem
+      - name: Push Gem to RubyGems
+        run: gem push *.gem

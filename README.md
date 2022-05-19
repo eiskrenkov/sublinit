@@ -2,10 +2,10 @@
 It simplifies the process of new Sublime Text projects creation
 
 ## Installation
-Install sublinit on your machine as any other Ruby gem
+Install sublinit on your machine as any other Ruby Gem
 
 ```sh
-$ gem install sublinit --source "https://rubygems.pkg.github.com/eiskrenkov"
+$ gem install sublinit
 ```
 
 ## Demo

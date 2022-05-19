@@ -1,17 +1,19 @@
 # frozen_string_literal: true
 
-require_relative 'sublinit/version'
+require 'sublinit/version'
 
-require_relative 'sublinit/core_ext/string'
+require 'sublinit/core_ext/string'
 
-require_relative 'sublinit/errors'
-require_relative 'sublinit/thor'
-require_relative 'sublinit/cli'
-require_relative 'sublinit/context'
-require_relative 'sublinit/project'
+require 'sublinit/errors'
+require 'sublinit/thor'
+require 'sublinit/cli'
+require 'sublinit/context'
+require 'sublinit/project'
 
 module SublInit
-  def self.root
+  module_function
+
+  def root
     File.join(__dir__, 'sublinit')
   end
 end

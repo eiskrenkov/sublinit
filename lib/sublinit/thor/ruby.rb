@@ -11,7 +11,7 @@ module SublInit
         option :gemset, aliases: '-g'
         option :open, aliases: '-o', type: :boolean, default: true
         option :origin, aliases: '-or'
-        desc 'ruby [NEW] [NAME] [GEMSET] [OPEN] [ORIGIN]', 'Initialize a new Ruby Sublime Text project'
+        desc 'ruby [NEW] [GEMSET] [OPEN] [ORIGIN]', 'Initialize a new Ruby Sublime Text project'
         def ruby
           ruby_version = RUBY_VERSION
 
