@@ -1,3 +1,5 @@
+[![Gem Version](https://badge.fury.io/rb/sublinit.svg)](https://badge.fury.io/rb/sublinit)
+
 # Subl Init
 It simplifies the process of new Sublime Text projects creation
 
