@@ -4,6 +4,7 @@ require 'thor'
 
 require_relative 'thor/support'
 require_relative 'thor/ruby'
+require_relative 'thor/plain'
 
 module SublInit
   module Thor
@@ -13,6 +14,7 @@ module SublInit
 
       # Supported projects languages
       include SublInit::Thor::Ruby
+      include SublInit::Thor::Plain
 
       def initialize(args = [], local_options = {}, config = {})
         super
