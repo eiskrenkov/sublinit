@@ -30,3 +30,15 @@ If you won't pass `--new` option, SublInit won't create any folders and will run
 #### Other options
 1. `--no-open` do not open the project in Sublime Text
 2. `--origin` your project's default remote, e.g `git@github.com:eiskrenkov/sublinit.git`
+
+### Plain
+Executing `$ sublinit plain --new --name newproject` will
+
+1. Create `newproject` directory
+2. Create `newproject.sublime-project`
+3. Open newly created project in Sublime Text
+
+If you won't pass `--new` option, SublInit won't create any folders and will run inside of the current one
+
+#### Other options
+1. `--no-open` do not open the project in Sublime Text
